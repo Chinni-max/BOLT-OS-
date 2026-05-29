@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BOLT OS — Strike Before You Finish Thinking</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#06070F;
+  --bg2:#0D0E1C;
+  --bg3:#12132A;
+  --card:#0F1020;
+  --border:rgba(255,255,255,0.06);
+  --border2:rgba(255,255,255,0.12);
+  --blue:#5B8EFF;
+  --cyan:#00E5CC;
+  --purple:#9B6FFF;
+  --text:#EEEEF0;
+  --muted:#7A7D8E;
+  --dim:#3A3D52;
+  --success:#2ECC88;
+  --warn:#F5A623;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden;}
+h1,h2,h3{font-family:'Fraunces',serif;font-weight:400;line-height:1.2;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(6,7,15,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:'Fraunces',serif;font-size:22px;color:var(--text);letter-spacing:0.04em;}
+.nav-logo span{color:var(--cyan);}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:400;transition:color 0.2s;}
+.nav-links a:hover{color:var(--text);}
+.nav-cta{background:var(--blue);color:#fff;border:none;padding:9px 22px;border-radius:50px;font-size:14px;font-weight:500;cursor:pointer;font-family:'Outfit',sans-serif;transition:opacity 0.2s;}
+.nav-cta:hover{opacity:0.85;}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 40px 80px;position:relative;overflow:hidden;}
+.hero-orb{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle, rgba(91,142,255,0.12) 0%, rgba(0,229,204,0.05) 50%, transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation:pulse 4s ease-in-out infinite;}
+.hero-orb2{position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle, rgba(155,111,255,0.1) 0%, transparent 70%);top:30%;right:15%;animation:float 6s ease-in-out infinite;}
+@keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-50%) scale(1.08);}}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-20px);}}
+.hero-tag{font-size:12px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--cyan);margin-bottom:24px;position:relative;}
+.hero h1{font-size:clamp(52px,8vw,96px);color:var(--text);margin-bottom:24px;position:relative;font-style:italic;}
+.hero h1 span{color:var(--cyan);font-style:normal;}
+.hero-sub{font-size:18px;color:var(--muted);max-width:560px;margin:0 auto 48px;position:relative;font-weight:300;line-height:1.8;}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;}
+.btn-primary{background:var(--blue);color:#fff;border:none;padding:14px 32px;border-radius:50px;font-size:15px;font-weight:500;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;text-decoration:none;display:inline-block;}
+.btn-primary:hover{transform:translateY(-2px);opacity:0.9;}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border2);padding:14px 32px;border-radius:50px;font-size:15px;font-weight:400;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;text-decoration:none;display:inline-block;}
+.btn-ghost:hover{border-color:var(--blue);color:var(--blue);}
+.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);font-size:12px;color:var(--dim);letter-spacing:0.1em;animation:bounce 2s ease-in-out infinite;}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(6px);}}
+
+/* SECTIONS */
+section{padding:100px 40px;max-width:1200px;margin:0 auto;}
+.section-tag{font-size:11px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:16px;}
+.section-title{font-size:clamp(32px,4vw,52px);color:var(--text);margin-bottom:20px;}
+.section-sub{font-size:17px;color:var(--muted);max-width:560px;font-weight:300;line-height:1.8;}
+
+/* PROBLEM */
+.problem-section{text-align:center;}
+.problem-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:40px 30px;}
+.stat-num{font-family:'Fraunces',serif;font-size:64px;color:var(--text);line-height:1;}
+.stat-unit{font-size:20px;color:var(--blue);}
+.stat-label{font-size:15px;color:var(--muted);margin-top:12px;line-height:1.6;}
+
+/* SOLUTION */
+.solution-section{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.solution-visual{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:32px;position:relative;overflow:hidden;}
+.sol-screen{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:20px;}
+.sol-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+.sol-time{font-size:13px;color:var(--muted);}
+.sol-badge{font-size:11px;background:rgba(0,229,204,0.1);color:var(--cyan);padding:3px 12px;border-radius:20px;border:1px solid rgba(0,229,204,0.2);}
+.sol-greet{font-size:20px;font-weight:500;margin-bottom:4px;}
+.sol-ctx{font-size:12px;color:var(--muted);margin-bottom:20px;}
+.sol-input{background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:14px 16px;font-size:13px;color:var(--muted);font-style:italic;margin-bottom:16px;}
+.sol-agents{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+.sol-agent{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--muted);}
+.agent-dot{width:6px;height:6px;border-radius:50%;background:var(--success);flex-shrink:0;animation:blink 1.5s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.sol-memories{display:flex;flex-direction:column;gap:6px;}
+.sol-mem{background:var(--bg3);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--muted);}
+
+/* FEATURES */
+.features-section{text-align:center;}
+.feat-tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:40px 0 48px;}
+.feat-tab{background:transparent;border:1px solid var(--border2);color:var(--muted);padding:8px 20px;border-radius:50px;font-size:13px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;}
+.feat-tab.active,.feat-tab:hover{background:var(--blue);color:#fff;border-color:var(--blue);}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;}
+.feat-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;text-align:left;transition:all 0.25s;cursor:pointer;}
+.feat-card:hover{border-color:var(--border2);transform:translateY(-4px);}
+.feat-card.highlight{border-color:rgba(91,142,255,0.3);}
+.feat-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:18px;}
+.feat-icon.blue{background:rgba(91,142,255,0.1);}
+.feat-icon.cyan{background:rgba(0,229,204,0.1);}
+.feat-icon.purple{background:rgba(155,111,255,0.1);}
+.feat-icon.green{background:rgba(46,204,136,0.1);}
+.feat-name{font-size:17px;font-weight:500;margin-bottom:8px;}
+.feat-desc{font-size:14px;color:var(--muted);line-height:1.6;}
+.feat-effort{display:inline-block;font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;margin-top:14px;}
+.effort-0{background:rgba(46,204,136,0.1);color:var(--success);}
+.effort-low{background:rgba(245,166,35,0.1);color:var(--warn);}
+
+/* BOOKINGS */
+.bookings-section{}
+.bookings-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:60px;}
+.booking-card{background:var(--card);border:1px solid var(--border);border-radius:24px;overflow:hidden;}
+.bk-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.bk-title{font-size:16px;font-weight:500;}
+.bk-badge{font-size:11px;background:rgba(0,229,204,0.1);color:var(--cyan);padding:3px 12px;border-radius:20px;border:1px solid rgba(0,229,204,0.2);}
+.bk-intent{padding:16px 24px;border-bottom:1px solid var(--border);font-size:13px;color:var(--muted);font-style:italic;background:var(--bg2);}
+.bk-body{padding:20px 24px;}
+.bk-map{height:100px;background:var(--bg2);border-radius:12px;margin-bottom:16px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.map-dots{position:absolute;inset:0;opacity:0.08;background-image:radial-gradient(circle,var(--text) 1px,transparent 1px);background-size:20px 20px;}
+.map-line{position:absolute;left:20%;right:15%;top:50%;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:2px;}
+.map-pin{position:absolute;width:10px;height:10px;border-radius:50%;border:2px solid var(--bg);}
+.map-pin.a{left:18%;top:calc(50% - 5px);background:var(--blue);}
+.map-pin.b{right:13%;top:calc(50% - 5px);background:var(--cyan);}
+.map-car{position:absolute;left:50%;top:calc(50% - 10px);font-size:18px;transform:translateX(-50%);animation:drive 3s linear infinite;}
+@keyframes drive{0%{left:22%;}100%{left:82%;}}
+.bk-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
+.bk-opt{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:10px 8px;text-align:center;cursor:pointer;transition:all 0.2s;}
+.bk-opt.sel{border-color:var(--blue);background:rgba(91,142,255,0.08);}
+.bk-opt-name{font-size:12px;font-weight:500;margin-bottom:2px;}
+.bk-opt-price{font-size:12px;color:var(--muted);}
+.bk-agents{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
+.bk-ag{display:flex;align-items:center;gap:5px;background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-size:11px;color:var(--muted);}
+.bk-btn{width:100%;padding:12px;background:var(--blue);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:500;cursor:pointer;font-family:'Outfit',sans-serif;transition:opacity 0.2s;}
+.bk-btn:hover{opacity:0.85;}
+.bk-note{font-size:11px;color:var(--dim);margin-top:10px;line-height:1.5;}
+
+/* FOOD items */
+.food-items{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+.food-row{display:flex;align-items:center;gap:10px;}
+.food-emoji{font-size:20px;flex-shrink:0;}
+.food-info{flex:1;}
+.food-name{font-size:13px;color:var(--text);}
+.food-price{font-size:11px;color:var(--muted);}
+.food-qty{display:flex;align-items:center;gap:8px;}
+.qty-btn{width:24px;height:24px;border-radius:50%;border:1px solid var(--border2);background:var(--bg2);color:var(--text);font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.qty-val{font-size:13px;font-weight:500;min-width:14px;text-align:center;}
+
+/* HOW IT WORKS */
+.how-section{text-align:center;}
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:60px;position:relative;}
+.how-steps::before{content:'';position:absolute;top:40px;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent);}
+.how-step{display:flex;flex-direction:column;align-items:center;}
+.how-num{width:80px;height:80px;border-radius:50%;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:32px;color:var(--cyan);margin-bottom:24px;position:relative;background:var(--card);}
+.how-num::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:1px solid rgba(0,229,204,0.1);}
+.how-title{font-size:18px;font-weight:500;margin-bottom:10px;}
+.how-desc{font-size:14px;color:var(--muted);line-height:1.7;}
+
+/* TECH */
+.tech-section{}
+.tech-layers{display:flex;flex-direction:column;gap:12px;margin-top:60px;}
+.tech-layer-row{display:flex;gap:16px;align-items:stretch;}
+.tech-layer-name{width:120px;flex-shrink:0;display:flex;align-items:center;font-size:12px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--dim);}
+.tech-layer-pills{flex:1;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px 20px;display:flex;gap:8px;flex-wrap:wrap;}
+.tech-pill{background:var(--bg2);border:1px solid var(--border2);border-radius:50px;padding:5px 14px;font-size:13px;color:var(--muted);}
+
+/* ROADMAP */
+.roadmap-section{}
+.roadmap-timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:60px;}
+.road-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px;position:relative;overflow:hidden;}
+.road-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.road-card.p1::before{background:var(--success);}
+.road-card.p2::before{background:var(--blue);}
+.road-card.p3::before{background:var(--purple);}
+.road-phase{font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:6px;}
+.road-card.p1 .road-phase{color:var(--success);}
+.road-card.p2 .road-phase{color:var(--blue);}
+.road-card.p3 .road-phase{color:var(--purple);}
+.road-title{font-size:20px;font-weight:500;margin-bottom:4px;}
+.road-time{font-size:13px;color:var(--muted);margin-bottom:20px;}
+.road-items{display:flex;flex-direction:column;gap:8px;}
+.road-item{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted);}
+.road-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.p1 .road-dot{background:var(--success);}
+.p2 .road-dot{background:var(--blue);}
+.p3 .road-dot{background:var(--purple);}
+
+/* BUSINESS */
+.biz-section-wrap{}
+.biz-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:60px;}
+.biz-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;}
+.biz-card.featured{border-color:rgba(91,142,255,0.3);}
+.biz-icon{font-size:24px;margin-bottom:16px;}
+.biz-name{font-size:18px;font-weight:500;margin-bottom:8px;}
+.biz-desc{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:16px;}
+.biz-price{font-size:22px;font-weight:600;color:var(--blue);}
+.revenue-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px;}
+.rev-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:center;}
+.rev-time{font-size:12px;color:var(--dim);margin-bottom:6px;}
+.rev-num{font-family:'Fraunces',serif;font-size:28px;color:var(--text);}
+.rev-label{font-size:12px;color:var(--muted);margin-top:4px;}
+
+/* PITCH DECK */
+.pitch-section{text-align:center;}
+.slides-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:60px;}
+.slide-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:left;display:flex;gap:12px;align-items:flex-start;}
+.slide-num{font-family:'Fraunces',serif;font-size:28px;color:var(--dim);line-height:1;flex-shrink:0;}
+.slide-content{}
+.slide-title{font-size:14px;font-weight:500;margin-bottom:4px;}
+.slide-desc{font-size:12px;color:var(--muted);line-height:1.5;}
+
+/* FOOTER */
+footer{background:var(--card);border-top:1px solid var(--border);padding:80px 40px;text-align:center;}
+.footer-logo{font-family:'Fraunces',serif;font-size:48px;color:var(--text);margin-bottom:16px;font-style:italic;}
+.footer-logo span{color:var(--cyan);}
+.footer-tagline{font-size:18px;color:var(--muted);margin-bottom:48px;font-weight:300;}
+.footer-ask{display:inline-block;background:var(--bg2);border:1px solid var(--border2);border-radius:20px;padding:32px 48px;margin-bottom:48px;}
+.ask-label{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.ask-val{font-family:'Fraunces',serif;font-size:48px;color:var(--cyan);}
+.ask-desc{font-size:14px;color:var(--muted);margin-top:6px;}
+.footer-bottom{font-size:13px;color:var(--dim);}
+
+/* FADE IN ANIMATION */
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.fade-in.visible{opacity:1;transform:none;}
+
+/* DIVIDER */
+.divider{width:100%;max-width:1200px;margin:0 auto;height:1px;background:var(--border);}
+
+@media(max-width:768px){
+  nav{padding:16px 20px;}
+  .nav-links{display:none;}
+  section{padding:70px 20px;}
+  .problem-stats,.bookings-grid,.how-steps,.roadmap-timeline,.solution-section{grid-template-columns:1fr;}
+  .how-steps::before{display:none;}
+  .tech-layer-row{flex-direction:column;}
+  .tech-layer-name{width:auto;}
+  .biz-grid,.revenue-grid{grid-template-columns:1fr 1fr;}
+  footer{padding:60px 20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">BO<span>LT</span></div>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#bookings">Bookings</a></li>
+    <li><a href="#tech">Tech</a></li>
+    <li><a href="#business">Business</a></li>
+    <li><a href="#pitch">Pitch</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('pitch').scrollIntoView({behavior:'smooth'})">View pitch →</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-orb"></div>
+  <div class="hero-orb2"></div>
+  <div class="hero-tag">Lightning-speed intelligence</div>
+  <h1>Strike <span>before</span> you finish thinking</h1>
+  <p class="hero-sub">BOLT is the world's first strike-fast AI operating system. No waiting. No delays. Just pure velocity — commands executed before you finish saying them.</p>
+  <div class="hero-btns">
+    <a href="#features" class="btn-primary">Explore features</a>
+    <a href="#pitch" class="btn-ghost">See the pitch deck</a>
+  </div>
+  <div class="hero-scroll">↓ scroll</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PROBLEM -->
+<section class="problem-section fade-in">
+  <div class="section-tag">The problem</div>
+  <h2 class="section-title">The app model is broken</h2>
+  <p class="section-sub" style="margin:0 auto;">We built smartphones for apps. Not for speed. BOLT OS throws away the delays and delivers the result before the thought completes.</p>
+  <div class="problem-stats">
+    <div class="stat-card">
+      <div class="stat-num">4<span class="stat-unit">hrs</span></div>
+      <div class="stat-label">lost every day navigating apps instead of actually doing things</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">80<span class="stat-unit">+</span></div>
+      <div class="stat-label">apps on an average phone, most opened less than once a week</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">0</div>
+      <div class="stat-label">operating systems today are built around human intent, not icons</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SOLUTION -->
+<section class="solution-section fade-in">
+  <div>
+    <div class="section-tag">The solution</div>
+    <h2 class="section-title">Pure velocity</h2>
+    <p style="font-size:17px;color:var(--muted);font-weight:300;line-height:1.8;margin-bottom:32px;">BOLT OS replaces the entire waiting game with instant execution. You think it, BOLT strikes — done before you blink. No app switching. No searching. No delays.</p>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div style="display:flex;gap:12px;align-items:flex-start;">
+        <div style="width:24px;height:24px;border-radius:50%;background:rgba(0,229,204,0.1);border:1px solid rgba(0,229,204,0.3);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--cyan);flex-shrink:0;margin-top:2px;">✓</div>
+        <div>
+          <div style="font-size:15px;font-weight:500;margin-bottom:2px;">Parallel AI agents</div>
+          <div style="font-size:14px;color:var(--muted);">Multiple agents working for you simultaneously while you sleep or work</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start;">
+        <div style="width:24px;height:24px;border-radius:50%;background:rgba(0,229,204,0.1);border:1px solid rgba(0,229,204,0.3);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--cyan);flex-shrink:0;margin-top:2px;">✓</div>
+        <div>
+          <div style="font-size:15px;font-weight:500;margin-bottom:2px;">Context-aware everywhere</div>
+          <div style="font-size:14px;color:var(--muted);">BOLT knows your calendar, habits, health, relationships — and acts on them</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start;">
+        <div style="width:24px;height:24px;border-radius:50%;background:rgba(0,229,204,0.1);border:1px solid rgba(0,229,204,0.3);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--cyan);flex-shrink:0;margin-top:2px;">✓</div>
+        <div>
+          <div style="font-size:15px;font-weight:500;margin-bottom:2px;">Fully private, fully yours</div>
+          <div style="font-size:14px;color:var(--muted);">On-device AI inference. No cloud. No surveillance. Your data never leaves your device.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="solution-visual">
+    <div class="sol-screen">
+      <div class="sol-topbar">
+        <div class="sol-time" id="live-time">9:41 AM</div>
+        <div class="sol-badge">3 agents active</div>
+      </div>
+      <div class="sol-greet">Lightning mode activated ⚡</div>
+      <div class="sol-ctx">You have 2 meetings and a flight tomorrow</div>
+      <div class="sol-input">"Book a cab to airport at 6am and order my usual dinner at 7pm"</div>
+      <div class="sol-agents">
+        <div class="sol-agent"><div class="agent-dot"></div>Cab booked 6am</div>
+        <div class="sol-agent"><div class="agent-dot"></div>Dinner ordered 7pm</div>
+        <div class="sol-agent"><div class="agent-dot"></div>Alarm set 5:30am</div>
+        <div class="sol-agent"><div class="agent-dot"></div>Calendar updated</div>
+      </div>
+      <div class="sol-memories">
+        <div style="font-size:11px;color:var(--dim);margin-bottom:6px;letter-spacing:0.06em;text-transform:uppercase;">Recent memory</div>
+        <div class="sol-mem">📄 Pitch deck — worked on 2 days ago</div>
+        <div class="sol-mem">🔗 Article half-read — AI in healthcare</div>
+        <div class="sol-mem">💬 Unanswered message — Priya, 3 days</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FEATURES -->
+<section id="features" class="features-section fade-in">
+  <div class="section-tag">Superpowers</div>
+  <h2 class="section-title">12 zero-touch features</h2>
+  <p class="section-sub" style="margin:0 auto;">Every feature is designed around one goal — reduce human effort to nearly zero.</p>
+  <div class="feat-tabs">
+    <button class="feat-tab active" onclick="filterFeats('all',this)">All</button>
+    <button class="feat-tab" onclick="filterFeats('predict',this)">Predict</button>
+    <button class="feat-tab" onclick="filterFeats('automate',this)">Automate</button>
+    <button class="feat-tab" onclick="filterFeats('connect',this)">Connect</button>
+    <button class="feat-tab" onclick="filterFeats('protect',this)">Protect</button>
+  </div>
+  <div class="feat-grid" id="feat-grid"></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BOOKINGS -->
+<section id="bookings" class="bookings-section fade-in">
+  <div class="section-tag">Built-in bookings</div>
+  <h2 class="section-title">No apps. Ever.</h2>
+  <p class="section-sub">Cab booking, food ordering, flights, hotels — all handled by a single voice command. BOLT calls the services, pays, tracks, and notifies you.</p>
+  <div class="bookings-grid">
+    <!-- CAB -->
+    <div class="booking-card">
+      <div class="bk-header">
+        <div class="bk-title">🚕 Cab booking</div>
+        <div class="bk-badge">BOLT agent</div>
+      </div>
+      <div class="bk-intent">"Book me a cab to the airport at 6am tomorrow"</div>
+      <div class="bk-body">
+        <div class="bk-map">
+          <div class="map-dots"></div>
+          <div class="map-line"></div>
+          <div class="map-pin a"></div>
+          <div class="map-pin b"></div>
+          <div class="map-car">🚕</div>
+        </div>
+        <div class="bk-opts">
+          <div class="bk-opt sel" onclick="selectOpt(this)"><div class="bk-opt-name">Micro</div><div class="bk-opt-price">₹320</div></div>
+          <div class="bk-opt" onclick="selectOpt(this)"><div class="bk-opt-name">Sedan</div><div class="bk-opt-price">₹480</div></div>
+          <div class="bk-opt" onclick="selectOpt(this)"><div class="bk-opt-name">SUV</div><div class="bk-opt-price">₹720</div></div>
+        </div>
+        <div class="bk-agents">
+          <div class="bk-ag"><div class="agent-dot"></div>Cab booked 6am</div>
+          <div class="bk-ag"><div class="agent-dot"></div>Alarm set 5:30am</div>
+          <div class="bk-ag"><div class="agent-dot"></div>Route checked</div>
+        </div>
+        <button class="bk-btn">Confirmed — Micro · ₹320</button>
+        <div class="bk-note">⚡ Also set your alarm, checked traffic & saved to calendar — without being asked</div>
+      </div>
+    </div>
+    <!-- FOOD -->
+    <div class="booking-card">
+      <div class="bk-header">
+        <div class="bk-title">🍛 Food ordering</div>
+        <div class="bk-badge">BOLT agent</div>
+      </div>
+      <div class="bk-intent">"Order my usual lunch, I have a meeting at 2pm"</div>
+      <div class="bk-body">
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:14px;">
+          <div style="font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;">BOLT picked · your fav restaurant</div>
+          <div style="font-size:14px;font-weight:500;">Annapoorna Mess</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px;">0.8 km · 25 min · ⭐ 4.7 · ordered 14×</div>
+        </div>
+        <div class="food-items">
+          <div class="food-row">
+            <div class="food-emoji">🍚</div>
+            <div class="food-info"><div class="food-name">Rice + Sambar + 2 Sabzi</div><div class="food-price">₹90</div></div>
+            <div class="food-qty"><div class="qty-btn" onclick="qty(this,-1)">−</div><div class="qty-val">1</div><div class="qty-btn" onclick="qty(this,1)">+</div></div>
+          </div>
+          <div class="food-row">
+            <div class="food-emoji">🥛</div>
+            <div class="food-info"><div class="food-name">Buttermilk</div><div class="food-price">₹30</div></div>
+            <div class="food-qty"><div class="qty-btn" onclick="qty(this,-1)">−</div><div class="qty-val">1</div><div class="qty-btn" onclick="qty(this,1)">+</div></div>
+          </div>
+          <div class="food-row">
+            <div class="food-emoji">🍮</div>
+            <div class="food-info"><div class="food-name">Sweet Pongal</div><div class="food-price">₹40</div></div>
+            <div class="food-qty"><div class="qty-btn" onclick="qty(this,-1)">−</div><div class="qty-val">1</div><div class="qty-btn" onclick="qty(this,1)">+</div></div>
+          </div>
+        </div>
+        <div class="bk-agents">
+          <div class="bk-ag"><div class="agent-dot"></div>Order placed</div>
+          <div class="bk-ag"><div class="agent-dot"></div>UPI paid</div>
+          <div class="bk-ag"><div class="agent-dot"></div>Deliver 1:30pm</div>
+        </div>
+        <button class="bk-btn">Order confirmed · ₹194</button>
+        <div class="bk-note">⚡ Scheduled for 1:30pm (before your 2pm meeting) & cleared your 1:45pm focus block</div>
+      </div>
+    </div>
+  </div>
+  <!-- Coming soon -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:16px;">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;display:flex;align-items:center;gap:12px;opacity:0.6;">
+      <div style="font-size:24px;">✈️</div><div><div style="font-size:14px;font-weight:500;">Flight booking</div><div style="font-size:12px;color:var(--muted);">Coming Phase 2</div></div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;display:flex;align-items:center;gap:12px;opacity:0.6;">
+      <div style="font-size:24px;">🏨</div><div><div style="font-size:14px;font-weight:500;">Hotel booking</div><div style="font-size:12px;color:var(--muted);">Coming Phase 2</div></div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;display:flex;align-items:center;gap:12px;opacity:0.6;">
+      <div style="font-size:24px;">🛒</div><div><div style="font-size:14px;font-weight:500;">Grocery auto-order</div><div style="font-size:12px;color:var(--muted);">Coming Phase 2</div></div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;display:flex;align-items:center;gap:12px;opacity:0.6;">
+      <div style="font-size:24px;">💊</div><div><div style="font-size:14px;font-weight:500;">Medicine reminder + order</div><div style="font-size:12px;color:var(--muted);">Coming Phase 3</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOW IT WORKS -->
+<section class="how-section fade-in">
+  <div class="section-tag">How it works</div>
+  <h2 class="section-title">Three steps to a seamless life</h2>
+  <div class="how-steps">
+    <div class="how-step">
+      <div class="how-num">1</div>
+      <div class="how-title">You express intent</div>
+      <div class="how-desc">Speak or type anything — "book my usual cab", "draft a reply to Priya", "order dinner before my meeting". BOLT understands natural language perfectly.</div>
+    </div>
+    <div class="how-step">
+      <div class="how-num">2</div>
+      <div class="how-title">Agents take over</div>
+      <div class="how-desc">BOLT deploys the right combination of AI agents — they call APIs, make bookings, draft content, set alarms, and coordinate across your entire digital life.</div>
+    </div>
+    <div class="how-step">
+      <div class="how-num">3</div>
+      <div class="how-title">You just live</div>
+      <div class="how-desc">Everything is done. BOLT sends you a quiet summary. No app-switching. No forms. No confirmations. Just the result, delivered silently and instantly.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TECH STACK -->
+<section id="tech" class="fade-in">
+  <div class="section-tag">Under the hood</div>
+  <h2 class="section-title">The tech stack</h2>
+  <p class="section-sub">Built on proven open-source foundations with a proprietary intent engine at the core.</p>
+  <div class="tech-layers">
+    <div class="tech-layer-row">
+      <div class="tech-layer-name">AI Core</div>
+      <div class="tech-layer-pills">
+        <span class="tech-pill">Llama 3 (on-device)</span>
+        <span class="tech-pill">Whisper (voice)</span>
+        <span class="tech-pill">LangChain agents</span>
+        <span class="tech-pill">RAG memory</span>
+        <span class="tech-pill">Intent parser (proprietary)</span>
+      </div>
+    </div>
+    <div class="tech-layer-row">
+      <div class="tech-layer-name">OS Layer</div>
+      <div class="tech-layer-pills">
+        <span class="tech-pill">Android AOSP fork</span>
+        <span class="tech-pill">Custom launcher</span>
+        <span class="tech-pill">Agent scheduler</span>
+        <span class="tech-pill">Context engine</span>
+      </div>
+    </div>
+    <div class="tech-layer-row">
+      <div class="tech-layer-name">Backend</div>
+      <div class="tech-layer-pills">
+        <span class="tech-pill">FastAPI</span>
+        <span class="tech-pill">PostgreSQL</span>
+        <span class="tech-pill">Redis (agent state)</span>
+        <span class="tech-pill">Kafka (event bus)</span>
+        <span class="tech-pill">Docker + K8s</span>
+      </div>
+    </div>
+    <div class="tech-layer-row">
+      <div class="tech-layer-name">Integrations</div>
+      <div class="tech-layer-pills">
+        <span class="tech-pill">Ola / Uber API</span>
+        <span class="tech-pill">Zomato / Swiggy API</span>
+        <span class="tech-pill">Google Calendar</span>
+        <span class="tech-pill">UPI / Razorpay</span>
+        <span class="tech-pill">Gmail / WhatsApp</span>
+      </div>
+    </div>
+    <div class="tech-layer-row">
+      <div class="tech-layer-name">Privacy</div>
+      <div class="tech-layer-pills">
+        <span class="tech-pill">On-device inference</span>
+        <span class="tech-pill">E2E encryption</span>
+        <span class="tech-pill">Local vector DB</span>
+        <span class="tech-pill">Zero cloud dependency</span>
+      </div>
+    </div>
+    <div class="tech-layer-row">
+      <div class="tech-layer-name">Hardware</div>
+      <div class="tech-layer-pills">
+        <span class="tech-pill">Android phone (v1)</span>
+        <span class="tech-pill">Smart glasses (v2)</span>
+        <span class="tech-pill">Earbuds OS (v3)</span>
+        <span class="tech-pill">Car integration (v3)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ROADMAP -->
+<section class="fade-in">
+  <div class="section-tag">Roadmap</div>
+  <h2 class="section-title">18 months to platform</h2>
+  <p class="section-sub">Three clear phases. Each one unlocks a new category of value.</p>
+  <div class="roadmap-timeline">
+    <div class="road-card p1">
+      <div class="road-phase">Phase 1 · MVP</div>
+      <div class="road-title">Launch</div>
+      <div class="road-time">Months 1 – 6</div>
+      <div class="road-items">
+        <div class="road-item"><div class="road-dot"></div>Intent engine v1</div>
+        <div class="road-item"><div class="road-dot"></div>Voice input</div>
+        <div class="road-item"><div class="road-dot"></div>Cab + food booking</div>
+        <div class="road-item"><div class="road-dot"></div>Basic memory layer</div>
+        <div class="road-item"><div class="road-dot"></div>Android app (beta)</div>
+        <div class="road-item"><div class="road-dot"></div>1,000 beta users</div>
+      </div>
+    </div>
+    <div class="road-card p2">
+      <div class="road-phase">Phase 2 · OS</div>
+      <div class="road-title">Scale</div>
+      <div class="road-time">Months 7 – 12</div>
+      <div class="road-items">
+        <div class="road-item"><div class="road-dot"></div>Parallel agents</div>
+        <div class="road-item"><div class="road-dot"></div>Ghost Predict</div>
+        <div class="road-item"><div class="road-dot"></div>Auto-reply brain</div>
+        <div class="road-item"><div class="road-dot"></div>Health autopilot</div>
+        <div class="road-item"><div class="road-dot"></div>Custom launcher</div>
+        <div class="road-item"><div class="road-dot"></div>50,000 paid users</div>
+      </div>
+    </div>
+    <div class="road-card p3">
+      <div class="road-phase">Phase 3 · Platform</div>
+      <div class="road-title">Dominate</div>
+      <div class="road-time">Months 13 – 18</div>
+      <div class="road-items">
+        <div class="road-item"><div class="road-dot"></div>Developer API</div>
+        <div class="road-item"><div class="road-dot"></div>Agent marketplace</div>
+        <div class="road-item"><div class="road-dot"></div>Smart glasses SDK</div>
+        <div class="road-item"><div class="road-dot"></div>B2B enterprise</div>
+        <div class="road-item"><div class="road-dot"></div>Presence network</div>
+        <div class="road-item"><div class="road-dot"></div>5,00,000 users</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BUSINESS -->
+<section id="business" class="fade-in">
+  <div class="section-tag">Business model</div>
+  <h2 class="section-title">Four revenue streams</h2>
+  <p class="section-sub">Subscription at the core. Marketplace and API for scale. Enterprise for revenue depth.</p>
+  <div class="biz-grid">
+    <div class="biz-card">
+      <div class="biz-icon">👤</div>
+      <div class="biz-name">Personal plan</div>
+      <div class="biz-desc">Full BOLT OS for individuals. All agents, all features, all bookings, full memory palace.</div>
+      <div class="biz-price">₹499 / month</div>
+    </div>
+    <div class="biz-card featured">
+      <div style="font-size:11px;background:rgba(91,142,255,0.1);color:var(--blue);display:inline-block;padding:3px 12px;border-radius:20px;margin-bottom:12px;border:1px solid rgba(91,142,255,0.2);">Primary revenue</div>
+      <div class="biz-icon">🏢</div>
+      <div class="biz-name">Enterprise</div>
+      <div class="biz-desc">Teams of 10+. Shared agents, meeting summaries, org-wide memory, admin controls.</div>
+      <div class="biz-price">₹2,999 / seat / month</div>
+    </div>
+    <div class="biz-card">
+      <div class="biz-icon">🧩</div>
+      <div class="biz-name">Agent marketplace</div>
+      <div class="biz-desc">Developers build and sell specialist agents. BOLT takes 30% of every transaction.</div>
+      <div class="biz-price">30% revenue share</div>
+    </div>
+    <div class="biz-card">
+      <div class="biz-icon">⚡</div>
+      <div class="biz-name">Intent API</div>
+      <div class="biz-desc">Businesses integrate BOLT's intent engine into their own apps and products.</div>
+      <div class="biz-price">₹0.02 per call</div>
+    </div>
+  </div>
+  <div class="revenue-grid">
+    <div class="rev-card">
+      <div class="rev-time">Month 6</div>
+      <div class="rev-num">₹4L</div>
+      <div class="rev-label">MRR</div>
+    </div>
+    <div class="rev-card">
+      <div class="rev-time">Month 12</div>
+      <div class="rev-num">₹25L</div>
+      <div class="rev-label">MRR</div>
+    </div>
+    <div class="rev-card">
+      <div class="rev-time">Month 18</div>
+      <div class="rev-num">₹1Cr</div>
+      <div class="rev-label">MRR</div>
+    </div>
+    <div class="rev-card">
+      <div class="rev-time">Year 3</div>
+      <div class="rev-num">₹10Cr</div>
+      <div class="rev-label">MRR</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PITCH DECK -->
+<section id="pitch" class="pitch-section fade-in">
+  <div class="section-tag">Investor pitch</div>
+  <h2 class="section-title">The 10-slide deck</h2>
+  <p class="section-sub" style="margin:0 auto;">Everything an investor needs to understand the opportunity, the product, and the ask.</p>
+  <div class="slides-grid">
+    <div class="slide-card"><div class="slide-num">01</div><div class="slide-content"><div class="slide-title">The broken app model</div><div class="slide-desc">4 hrs/day lost. 80+ apps. Zero intent-first OS.</div></div></div>
+    <div class="slide-card"><div class="slide-num">02</div><div class="slide-content"><div class="slide-title">Introducing BOLT</div><div class="slide-desc">Intent-first OS. No apps. Just say what you want.</div></div></div>
+    <div class="slide-card"><div class="slide-num">03</div><div class="slide-content"><div class="slide-title">Live demo</div><div class="slide-desc">Ghost Predict + cab + food + auto-reply in 60 seconds.</div></div></div>
+    <div class="slide-card"><div class="slide-num">04</div><div class="slide-content"><div class="slide-title">12 superpowers</div><div class="slide-desc">All features, all zero-touch, all on one device.</div></div></div>
+    <div class="slide-card"><div class="slide-num">05</div><div class="slide-content"><div class="slide-title">Market size</div><div class="slide-desc">$42B AI OS market. 6.8B users. 0 competitors.</div></div></div>
+    <div class="slide-card"><div class="slide-num">06</div><div class="slide-content"><div class="slide-title">Business model</div><div class="slide-desc">4 revenue streams. ₹10Cr MRR by year 3.</div></div></div>
+    <div class="slide-card"><div class="slide-num">07</div><div class="slide-content"><div class="slide-title">Why BOLT wins</div><div class="slide-desc">On-device AI, privacy-first, intent > apps.</div></div></div>
+    <div class="slide-card"><div class="slide-num">08</div><div class="slide-content"><div class="slide-title">Roadmap</div><div class="slide-desc">18 months: MVP → OS → Platform.</div></div></div>
+    <div class="slide-card"><div class="slide-num">09</div><div class="slide-content"><div class="slide-title">Team</div><div class="slide-desc">Founders with AI, product, and OS experience.</div></div></div>
+    <div class="slide-card"><div class="slide-num">10</div><div class="slide-content"><div class="slide-title">The ask</div><div class="slide-desc">Seed round: ₹5Cr / $600K. 18-month runway.</div></div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">BO<span>LT</span></div>
+  <div class="footer-tagline">The OS that thinks before you do</div>
+  <div class="footer-ask">
+    <div class="ask-label">Seed round ask</div>
+    <div class="ask-val">₹5 Crore</div>
+    <div class="ask-desc">$600K · 18-month runway · equity for lead investor</div>
+  </div>
+  <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:48px;">
+    <a href="#features" class="btn-primary">Explore the product</a>
+    <a href="#business" class="btn-ghost">See business model</a>
+  </div>
+  <div class="footer-bottom">© 2026 BOLT OS — Startup concept · All rights reserved</div>
+</footer>
+
+<script>
+// LIVE TIME
+function updateTime(){
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes();
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const hh = h % 12 || 12;
+  const mm = m < 10 ? '0' + m : m;
+  const el = document.getElementById('live-time');
+  if(el) el.textContent = hh + ':' + mm + ' ' + ampm;
+}
+updateTime();
+setInterval(updateTime, 10000);
+
+// FEATURES DATA
+const feats = [
+  {cat:'predict',icon:'🔮',color:'blue',name:'Ghost Predict',desc:'BOLT prepares your entire day before you wake up — cab booked, meals ordered, deck drafted.',effort:0},
+  {cat:'automate',icon:'💬',color:'cyan',name:'Auto-Reply Brain',desc:'Reads all messages, auto-replies in your exact tone. You review a 30-second summary once a day.',effort:0},
+  {cat:'automate',icon:'🧾',color:'purple',name:'Zero-Tap Life',desc:'Bills paid, groceries ordered, subscriptions managed — all without you touching anything.',effort:0},
+  {cat:'connect',icon:'⚡',color:'blue',name:'Context Teleport',desc:'Switch phone → laptop → TV → car seamlessly. Your exact context follows you everywhere.',effort:0},
+  {cat:'protect',icon:'❤️',color:'green',name:'Health Autopilot',desc:'Reads wearable data, reschedules meetings, orders the right food, protects your sleep.',effort:0},
+  {cat:'automate',icon:'🎙️',color:'cyan',name:'Silent Meeting Agent',desc:'Joins meetings, takes notes, assigns tasks, sends recaps — you just show up.',effort:1},
+  {cat:'connect',icon:'🤝',color:'purple',name:'Relationship Memory',desc:'Remembers everyone, nudges you when bonds go cold, drafts messages in your tone.',effort:1},
+  {cat:'predict',icon:'🧳',color:'blue',name:'Predictive Pack',desc:'Detects any trip 5 days ahead — packs checklist, checks in, downloads maps, books transfers.',effort:0},
+  {cat:'protect',icon:'🛡️',color:'green',name:'Smart Silence',desc:'Driving, sleeping, in flow? BOLT handles your digital presence entirely. You emerge to a clean summary.',effort:0},
+  {cat:'predict',icon:'🎯',color:'cyan',name:'Decision Autopilot',desc:'Handles 90% of small daily decisions — route, restaurant, time slot — so you save mental energy.',effort:1},
+  {cat:'connect',icon:'🛒',color:'purple',name:'Invisible Checkout',desc:'Walk into partner stores, pick items, walk out. BOLT pays automatically. Zero friction.',effort:0},
+  {cat:'automate',icon:'🎬',color:'blue',name:'Life Replay',desc:'Every Sunday, BOLT auto-generates a beautiful visual story of your week. Your life, documented.',effort:0},
+];
+
+let activeCat = 'all';
+function filterFeats(cat, el){
+  activeCat = cat;
+  document.querySelectorAll('.feat-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderFeats();
+}
+function renderFeats(){
+  const grid = document.getElementById('feat-grid');
+  const filtered = feats.filter(f => activeCat === 'all' || f.cat === activeCat);
+  grid.innerHTML = filtered.map(f => `
+    <div class="feat-card ${f.effort===0?'highlight':''}">
+      <div class="feat-icon ${f.color}">${f.icon}</div>
+      <div class="feat-name">${f.name}</div>
+      <div class="feat-desc">${f.desc}</div>
+      <div class="feat-effort ${f.effort===0?'effort-0':'effort-low'}">${f.effort===0?'~0% human effort':'~10% human effort'}</div>
+    </div>
+  `).join('');
+}
+renderFeats();
+
+// CAB OPTIONS
+function selectOpt(el){
+  document.querySelectorAll('.bk-opt').forEach(o => o.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+// FOOD QTY
+function qty(btn, delta){
+  const row = btn.parentElement;
+  const v = row.querySelector('.qty-val');
+  let n = parseInt(v.textContent) + delta;
+  if(n < 0) n = 0;
+  v.textContent = n;
+}
+
+// FADE IN ON SCROLL
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold: 0.1});
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
